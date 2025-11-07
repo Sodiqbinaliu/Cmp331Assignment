@@ -3,7 +3,7 @@ name: Ultra-Precise Slack Midnight Message
 on:
   schedule:
     # Run every day at 22:59 UTC (23:59 WAT)
-    - cron: "11 23 * * *"
+    - cron: "59 22 * * *"
   workflow_dispatch:  # For manual testing
 
 jobs:
