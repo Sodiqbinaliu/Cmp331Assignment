@@ -21,7 +21,7 @@ jobs:
           target_utc=$(echo "$target_utc - 3600" | bc)
 
           # Fire slightly early (0.20s before midnight)
-          fire_time=$(echo "$target_utc - 0.20" | bc)
+          fire_time=$(echo "$target_utc - 0.19" | bc)
 
           # Calculate remaining seconds
           sleep_seconds=$(echo "$fire_time - $now_utc" | bc)
