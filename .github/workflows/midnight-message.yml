@@ -9,6 +9,8 @@ jobs:
 
     steps:
       - name: Wait until precise send time
+        env:
+          DELAY_TIME: ${{secrets.DELAY_TIME}}
         id: wait
         run: |
           echo "Preparing to send Slack message at 00:00:00 WAT"
@@ -21,7 +23,7 @@ jobs:
           target_utc=$(echo "$target_utc - 3600" | bc)
 
           # Fire slightly early (0.20s before midnight)
-          fire_time=$(echo "$target_utc - 0.19" | bc)
+          fire_time=$(echo "$target_utc - $DELAY_TIME" | bc)
 
           # Calculate remaining seconds
           sleep_seconds=$(echo "$fire_time - $now_utc" | bc)
@@ -36,7 +38,6 @@ jobs:
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_MESSAGE: ${{ secrets.SLACK_MESSAGE }}
         run: |
-          echo "Sending Slack message..."
           start=$(date +%s.%3N)
           curl -s -o /dev/null -w "status=%{http_code}, time=%{time_total}\n" \
             -X POST "https://slack.com/api/chat.postMessage" \
