@@ -11,11 +11,9 @@ jobs:
 
     steps:
       - name: Wait until precise send time
-        env:
-          DELAY_TIME: ${{secrets.DELAY_TIME}}
         id: wait
         run: |
-          echo "Set - $DELAY_TIME Preparing to send Slack message at 00:00:00 WAT"
+          echo "Preparing to send Slack message at 00:00:00 WAT"
 
           # Current time in UTC with milliseconds
           now_utc=$(date -u +%s.%3N)
@@ -25,7 +23,7 @@ jobs:
           target_utc=$(echo "$target_utc - 3600" | bc)
 
           # Fire slightly early (0.20s before midnight)
-          fire_time=$(echo "$target_utc - $DELAY_TIME" | bc)
+          fire_time=$(echo "$target_utc - 0.19" | bc)
 
           # Calculate remaining seconds
           sleep_seconds=$(echo "$fire_time - $now_utc" | bc)
