@@ -1,6 +1,8 @@
 name: Ultra-Precise Slack Midnight Message
 
 on:
+  schedule:
+   - cron: "59 22 * * *"
   workflow_dispatch:  # For manual testing
 
 jobs:
@@ -13,7 +15,7 @@ jobs:
           DELAY_TIME: ${{secrets.DELAY_TIME}}
         id: wait
         run: |
-          echo "Preparing to send Slack message at 00:00:00 WAT"
+          echo "Set - $DELAY_TIME Preparing to send Slack message at 00:00:00 WAT"
 
           # Current time in UTC with milliseconds
           now_utc=$(date -u +%s.%3N)
